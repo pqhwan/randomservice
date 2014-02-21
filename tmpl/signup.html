@@ -13,6 +13,7 @@
 	</head>
 
 	<body>
+
 	
 		<header>
 			
@@ -41,12 +42,18 @@
 		</header>
 
 		
-		<form id="login-form">
+
+		<h1>SIGN UP HERE</h1>
+		<form id="login-form" method="POST" action="">
+
 			<label for="email">Email</label>
 			<input type="text" id="email" name="email">
 			<!--TODO error field-->
-			<label for="password">Password</label>
+			<label for="pwd">Password</label>
 			<input type="password" id="pwd" name="pwd">
+			<label for="rpwd">Retype Password</label>
+			<input type="password" id="rpwd" name="rpwd">
+			<input type="submit" value="submit">
 		</form>
 		
 		
@@ -58,12 +65,11 @@
 	</body>
 
 <script>
-//validator script--make sure filed's not empty
+//TODO validator script--make sure filed's not empty
+//make sure pwd == rpwd
 </script>
+
 <footer>
-Mani The Man
 </footer>
 
 </html>
-
-
