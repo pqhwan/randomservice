@@ -7,14 +7,13 @@
 		<link href="css/bootstrap.css" rel="stylesheet" />
     	<link href="css/bootstrap-responsive.css" rel="stylesheet">
     	
-		<!-- Js here -->
+		<!-- JS here -->
+		<script src="js/jquery-2.1.0.js"></script>
 		<script src="js/bootstrap.min.js"> </script>
-		<script src="js/jquery-2.1.0.min.js"></script>
-		
+		<script src="js/validate.js"></script>
 	</head>
 
 	<body>
-
 		<header>
 			<div class="container">
 				<div class="navbar navbar-static-top" style="margin: -1px -1px 0;">
@@ -40,15 +39,22 @@
 		
 
 		<h1>SIGN UP HERE</h1>
-		<form id="login-form" method="POST" action="">
+		<form id="login_form" method="POST" action="">
 
 			<label for="email">Email</label>
-			<input type="text" id="email" name="email">
-			<!--TODO error field-->
+			<input type="text" id="email" name="email"/>
+			<span id="email_err" style="color:red; display:none">
+				Required Field
+			</span>
+
 			<label for="pwd">Password</label>
-			<input type="password" id="pwd" name="pwd">
+			<input type="password" id="pwd" name="pwd"/>
+			<span id="pwd_err" style="color:red; display:none">
+				Required Field
+			</span>
+
 			<label for="rpwd">Retype Password</label>
-			<input type="password" id="rpwd" name="rpwd">
+			<input type="password" id="rpwd" name="rpwd"/>
 			<input type="submit" value="submit">
 		</form>
 		
@@ -61,8 +67,47 @@
 	</body>
 
 <script>
-//TODO validator script--make sure filed's not empty
-//make sure pwd == rpwd
+//validator script
+$('#login_form').submit(function(event){
+	if(event.preventDefault) event.preventDefault();
+	console.log('print');
+	var contn = 1;
+
+	//mail validation
+	var mailrgx =/.+@.+\..+/i;
+	var $email = $('#email');
+	var $email_err = $('#email_err');
+	if(!$email.val()){
+		$email_err.html('Required Field');
+		$email_err.show();
+		contn = 0;
+	} else if( !mailrgx.test($email.val()) ){
+		$email_err.html('Invalid email address');
+		$email_err.show();
+		contn = 0;
+	} else {$email_err.hide();}
+
+	//pw validation
+	var $password = $('#pwd');
+	var $rpassword = $('#rpwd');
+	var $pwd_err = $('#pwd_err');
+	if( !$password.val() || !$rpassword.val() ){
+		$pwd_err.html('Required-filed');
+		$pwd_err.show();
+		contn = 0;
+	} else if($password.val() != $rpassword.val()){
+		$pwd_err.html('Password does not match');
+		$pwd_err.show();
+		contn = 0;
+	} else if($password.val().length < 8) {
+		$pwd_err.html('Password must be at least 8 characters');
+		$pwd_err.show();
+		contn = 0;
+	} else { $pwd_err.hide();}
+
+	//post
+	if(contn) $(this).off('submit').submit();
+});
 
 </script>
 
