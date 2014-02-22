@@ -4,6 +4,7 @@
 		<title>swig</title>
 		
 		<!-- Bootstrap CSS here -->
+
 		<link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		
@@ -25,44 +26,41 @@
 		 <script src="js/jquery-1.10.2.js" type="text/javascript"> </script>
 		 <script src="mani-js/custom.js" type="text/javascript"> </script>
 	 	
+	 	<script src="js/jquery-2.1.0.js"></script>
+		<script src="js/validate.js"></script>
 		 
 	</head>
 
 	<body>
 
-		<!-- Header starts here -->
 		<header>
-				
-		
-			<div class="navbar navbar-static-top" style="margin: -1px -1px 0;">
-              <div class="navbar-inner">
-              	<div class="container">
-                <div class="container" style="width: auto; padding: 0 20px;">
-                  <a class="brand" href="#">Swiglee</a>
-                  <ul class="nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  </ul><link href="css/bootstrap-theme.css" rel="stylesheet" type="text/css" />
-                  <ul>
-                  		<button type="button" class="btn pull-right">Login</button>
-                    	<button type="button" class="btn pull-right">Register</button>
-                  </ul>
-                </div>
-                </div>
-              </div>
-			</div>
+			<div class="container">
+				<div class="navbar navbar-static-top" style="margin: -1px -1px 0;">
+			   	<div class="navbar-inner">
+			     <div class="container" style="width: auto; padding: 0 20px;">
+			      <a class="brand" href="#">Swiglee</a>
+			      <ul class="nav">
+			     	 <li class="active"><a href="#">Home</a></li>
+			     	 <li><a href="#">About Us</a></li>
+			       <li><a href="#">Contact Us</a></li>
+			      </ul>
+			      <ul>
+			       <button type="button" class="btn pull-right">Login</button>
+			       <button type="button" class="btn pull-right">Register</button>
+			       </ul>
+	    		</div>
+		     </div>
+		   	</div>
+
+		</div>
 			
 		</header>
 
+
 		<!-- End of Header -->
 		
-		<div class="container" id="driversList">
-			
-			
-			
-		</div>
-					
+		<div class="container" id="driversList">	</div>
+
 		<footer>
 			<div class="container custom-footer">
 				@Swiggly : Mani Askari | Peter Jason
@@ -113,5 +111,63 @@
 	<script src="js/slider.js"></script>
 	-->
 	
+
+<script>
+
+//TODO use validate.js
+
+
+function email_valid(input_name, err_name){
+	var mailrgx = /.+@+\..+/i;
+	var $email = $(input_name);
+	var $email_err = $(err_name);
+
+	if(!$email.val()){
+		$email_err.html('Required Field');
+		$email_err.show();
+		return false;
+	} else if( !mailrgx.test($email.val()) ){
+		$email_err.html('Invalid email address');
+		$email_err.show();
+		return false;
+	} else {
+		$email_err.hide();
+		return false;
+	}
+
+	return true;
+}
+
+
+$('#signup_form').submit(function(event){
+	//hold on don't submit yet
+	if(event.preventDefault) event.preventDefault();
+
+	var contn = true;
+	email_valid('#email','#email_err');
+
+	//pw validation
+	var $password = $('#pwd');
+	var $rpassword = $('#rpwd');
+	var $pwd_err = $('#pwd_err');
+	if( !$password.val() || !$rpassword.val() ){
+		$pwd_err.html('Required-filed');
+		$pwd_err.show();
+		contn = 0;
+	} else if($password.val() != $rpassword.val()){
+		$pwd_err.html('Password does not match');
+		$pwd_err.show();
+		contn = 0;
+	} else if($password.val().length < 8) {
+		$pwd_err.html('Password must be at least 8 characters');
+		$pwd_err.show();
+		contn = 0;
+	} else { $pwd_err.hide();}
+
+	//post
+	if(contn) $(this).off('submit').submit();
+});
+
+</script>
 
 </html>
