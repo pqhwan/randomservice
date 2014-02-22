@@ -5,41 +5,34 @@
 		
 		<!-- Bootstrap CSS here -->
 		<link href="css/bootstrap.css" rel="stylesheet" />
-    	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
     	
     	<!-- Custom CSS here -->
-    	<link href="css/custom.css" rel="stylesheet" />
-    	
-		<!-- Js here -->
+    <link href="css/custom.css" rel="stylesheet" />
+		<script src="js/jquery-2.1.0.js"></script>
 		<script src="js/bootstrap.min.js"> </script>
-		
+		<script src="js/validate.js"></script>
 	</head>
 
 	<body>
-
-	
 		<header>
-			
 			<div class="container">
-				
 				<div class="navbar navbar-static-top" style="margin: -1px -1px 0;">
-	              <div class="navbar-inner">
-	                <div class="container" style="width: auto; padding: 0 20px;">
-	                  <a class="brand" href="#">Swiglee</a>
-	                  <ul class="nav">
-	                    <li class="active"><a href="#">Home</a></li>
-	                    <li><a href="#">About Us</a></li>
-	                    <li><a href="#">Contact Us</a></li>
-	                    
-	                  </ul>
-	                  <ul>
-	                  		<button type="button" class="btn pull-right">Login</button>
-	                    	<button type="button" class="btn pull-right">Register</button>
-	                  </ul>
-	                </div>
-	              </div>
-	            </div>
-			
+	   	<div class="navbar-inner">
+	     <div class="container" style="width: auto; padding: 0 20px;">
+	      <a class="brand" href="#">Swiglee</a>
+	      <ul class="nav">
+	     	 <li class="active"><a href="#">Home</a></li>
+	     	 <li><a href="#">About Us</a></li>
+	       <li><a href="#">Contact Us</a></li>
+	      </ul>
+	      <ul>
+	       <button type="button" class="btn pull-right">Login</button>
+	       <button type="button" class="btn pull-right">Register</button>
+	       </ul>
+	    		</div>
+	     </div>
+	   	</div>
 			</div>
 			
 		</header>
@@ -50,15 +43,18 @@
 				
 				<div class="span6">
 					<h3>SIGN UP HERE</h3>
-					<form id="login-form" method="POST" action="">
-			
+					<form id="signup_form" method="POST" action="">
 						<label for="email">Email</label>
 						<input type="text" id="email" name="email">
-						<!--TODO error field-->
+						<span id="email_err" style="color:red;display:none"></span>
+
 						<label for="pwd">Password</label>
 						<input type="password" id="pwd" name="pwd">
+						<span id="pwd_err" style="color:red;display:none"></span>
+
 						<label for="rpwd">Retype Password</label>
 						<input type="password" id="rpwd" name="rpwd">
+
 						<input type="submit" value="submit">
 					</form>
 				</div>
@@ -72,16 +68,11 @@
 						<!--TODO error field-->
 						<label for="pwd">Password</label>
 						<input type="password" id="pwd" name="pwd">
-						<label for="rpwd">Retype Password</label>
-						<input type="password" id="rpwd" name="rpwd">
 						<input type="submit" value="submit">
 					</form>
 				</div>
 			</div>
-			
-			
 		</div>
-		
 		<footer>
 			<div class="container custom-footer">
 				@Swiggly : Mani Askari | Peter Jason
@@ -92,8 +83,61 @@
 	</body>
 
 <script>
-//TODO validator script--make sure filed's not empty
-//make sure pwd == rpwd
+
+//TODO use validate.js
+
+
+function email_valid(input_name, err_name){
+	var mailrgx = /.+@+\..+/i;
+	var $email = $(input_name);
+	var $email_err = $(err_name);
+
+	if(!$email.val()){
+		$email_err.html('Required Field');
+		$email_err.show();
+		return false;
+	} else if( !mailrgx.test($email.val()) ){
+		$email_err.html('Invalid email address');
+		$email_err.show();
+		return false;
+	} else {
+		$email_err.hide();
+		return false;
+	}
+
+	return true;
+}
+
+
+$('#signup_form').submit(function(event){
+	//hold on don't submit yet
+	if(event.preventDefault) event.preventDefault();
+
+	var contn = true;
+	email_valid('#email','#email_err');
+
+	//pw validation
+	var $password = $('#pwd');
+	var $rpassword = $('#rpwd');
+	var $pwd_err = $('#pwd_err');
+	if( !$password.val() || !$rpassword.val() ){
+		$pwd_err.html('Required-filed');
+		$pwd_err.show();
+		contn = 0;
+	} else if($password.val() != $rpassword.val()){
+		$pwd_err.html('Password does not match');
+		$pwd_err.show();
+		contn = 0;
+	} else if($password.val().length < 8) {
+		$pwd_err.html('Password must be at least 8 characters');
+		$pwd_err.show();
+		contn = 0;
+	} else { $pwd_err.hide();}
+
+	//post
+	if(contn) $(this).off('submit').submit();
+});
+
 </script>
 
 <footer>
