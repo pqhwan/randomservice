@@ -6,8 +6,14 @@
 <?php
 	$this->load->view('master_header');
 ?>
-<br>
-This is the body file <br>
+
+<?php
+	if (isset($page)) {
+			$this->load->view('signup/signup_form');
+	} 
+?>
+	
+
 
 
 <?php
